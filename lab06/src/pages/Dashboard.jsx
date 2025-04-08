@@ -165,7 +165,7 @@ export default function Dashboard() {
           <div className="flex items-center gap-2"></div>
         </div>
       </div>
-
+        
       <ModalEdit
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
@@ -174,10 +174,8 @@ export default function Dashboard() {
           setDetails((prev) =>
             prev.map((item) => (item.id === updatedRow.id ? updatedRow : item))
           );
-          setModalOpen(false);
         }}
       />
-
     </div>
   );
 }
