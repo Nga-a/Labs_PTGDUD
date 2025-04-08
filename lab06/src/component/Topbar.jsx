@@ -1,5 +1,5 @@
 import { Bell, Search, HelpCircle, User } from "lucide-react";
-
+import Avatar from "../../img/Avatar.png";
 export default function Topbar() {
   return (
     <header className="bg-white shadow px-6 py-4 flex items-center justify-between">
@@ -16,7 +16,7 @@ export default function Topbar() {
         <Bell className="text-gray-600" />
         <HelpCircle className="text-gray-600" />
         <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
-          <User className="text-white" size={16} />
+          <img src={Avatar} alt="Logo" className="w-32 h-auto mx-auto" />
         </div>
       </div>
     </header>

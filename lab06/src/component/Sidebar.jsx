@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { Home, Folder, Users, BarChart2, MessageSquare, Zap } from "lucide-react";
-
+import logo from "../../img/logo.png";
+import group from "../../img/Group.png";
 export default function Sidebar() {
   const links = [
     { name: "Dashboard", icon: <Home size={18} />, to: "/" },
@@ -14,7 +15,9 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-white border-r h-full flex flex-col justify-between p-4">
       <div>
-        <div className="text-2xl font-bold mb-8">📊 Logo</div>
+        <div className="mb-8">
+          <img src={logo} alt="Logo" className="w-32 h-auto mx-auto" />
+        </div>
         <nav className="flex flex-col gap-2">
           {links.map((link) => (
             <NavLink
@@ -33,8 +36,12 @@ export default function Sidebar() {
         </nav>
       </div>
       <div className="bg-gray-100 p-4 rounded-lg mt-8">
+        <div className="mb-8">
+          <img src={group} alt="Logo" className="w-32 h-auto mx-auto" />
+        </div>
         <p className="text-sm font-medium mb-2">V2.0 is available</p>
-        <button className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">Try now</button>
+        <button className="border border-blue-500 text-blue-500 px-3 py-1 rounded text-sm hover:bg-blue-50"> Try now </button>
+
       </div>
     </aside>
   );

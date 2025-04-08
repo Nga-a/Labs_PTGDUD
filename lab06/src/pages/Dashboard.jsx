@@ -3,7 +3,7 @@ import axios from "axios";
 import * as LucideIcons from "lucide-react";
 import { LayoutDashboard, FileDown, FileUp, Pencil } from "lucide-react";
 import DataTable from "react-data-table-component";
-
+import Squaresfour1 from "../../img/Squaresfour1.png";
 export default function Dashboard() {
   const [cards, setCards] = useState([]);
   const [details, setDetails] = useState([]);
@@ -94,10 +94,9 @@ export default function Dashboard() {
 
   return (
     <div className="p-6">
-      {/* Overview Section */}
       <div className="flex items-center gap-3 mb-6">
         <div className="bg-pink-100 p-2 rounded-lg">
-          <LayoutDashboard className="text-pink-100 w-5 h-5" />
+          <img src={Squaresfour1} alt="Logo"  />
         </div>
         <h2 className="text-2xl font-bold text-gray-800">Overview</h2>
       </div>
