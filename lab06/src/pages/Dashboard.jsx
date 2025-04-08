@@ -6,12 +6,18 @@ import DataTable from "react-data-table-component";
 
 export default function Dashboard() {
   const [cards, setCards] = useState([]);
+  const [details, setDetails] = useState([]);
 
   useEffect(() => {
     axios
       .get("https://67f55317913986b16fa42b44.mockapi.io/overview")
       .then((res) => setCards(res.data))
       .catch((err) => console.error("API error:", err));
+
+    axios
+      .get("https://67f55317913986b16fa42b44.mockapi.io/details")
+      .then((res) => setDetails(res.data))
+      .catch((err) => console.error("Details API error:", err));
   }, []);
 
   const toPascalCase = (str) =>
@@ -32,12 +38,16 @@ export default function Dashboard() {
 
   const statusBadge = (status) => {
     const statusMap = {
-      "New": "bg-blue-100 text-blue-600",
+      New: "bg-blue-100 text-blue-600",
       "In-progress": "bg-yellow-100 text-yellow-700",
-      "Completed": "bg-green-100 text-green-700",
+      Completed: "bg-green-100 text-green-700",
     };
     return (
-      <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusMap[status] || "bg-gray-100 text-gray-600"}`}>
+      <span
+        className={`px-2 py-1 rounded-full text-xs font-medium ${
+          statusMap[status] || "bg-gray-100 text-gray-600"
+        }`}
+      >
         {status}
       </span>
     );
@@ -46,53 +56,45 @@ export default function Dashboard() {
   const columns = [
     {
       name: "",
-      cell: () => <input type="checkbox" className="form-checkbox h-4 w-4 text-pink-500" />,
+      cell: () => (
+        <input type="checkbox" className="form-checkbox h-4 w-4 text-pink-500" />
+      ),
       width: "60px",
     },
-    { name: "Customer Name", selector: (row) => row.customerName, sortable: true },
+    {
+      name: "Customer Name",
+      selector: (row) => row.name,
+      sortable: true,
+      cell: (row) => (
+        <div className="flex items-center gap-3">
+          <img
+            src={`https://i.pravatar.cc/40?u=${row.id}`}
+            alt={row.name}
+            className="w-8 h-8 rounded-full object-cover"
+          />
+          <span>{row.name}</span>
+        </div>
+      ),
+    },
     { name: "Company", selector: (row) => row.company },
-    { name: "Order Value", selector: (row) => row.orderValue },
-    { name: "Order Date", selector: (row) => row.orderDate },
+    { name: "Order Value", selector: (row) => row.value },
+    { name: "Order Date", selector: (row) => row.date },
     {
       name: "Status",
       cell: (row) => statusBadge(row.status),
     },
     {
       name: "",
-      cell: () => <Pencil className="w-4 h-4 text-gray-500 hover:text-gray-700 cursor-pointer" />,
+      cell: () => (
+        <Pencil className="w-4 h-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+      ),
       width: "60px",
-    }
-  ];
-
-  const mockData = [
-    {
-      id: 1,
-      customerName: "Nguyen Van A",
-      company: "ABC Corp",
-      orderValue: "$1,000",
-      orderDate: "2025-04-01",
-      status: "Completed",
-    },
-    {
-      id: 2,
-      customerName: "Tran Thi B",
-      company: "XYZ Ltd",
-      orderValue: "$850",
-      orderDate: "2025-04-03",
-      status: "In-progress",
-    },
-    {
-      id: 3,
-      customerName: "Le Van C",
-      company: "ACME Inc",
-      orderValue: "$500",
-      orderDate: "2025-04-05",
-      status: "New",
     },
   ];
 
   return (
     <div className="p-6">
+      {/* Overview Section */}
       <div className="flex items-center gap-3 mb-6">
         <div className="bg-pink-100 p-2 rounded-lg">
           <LayoutDashboard className="text-pink-100 w-5 h-5" />
@@ -120,7 +122,6 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
-
       <div className="bg-white p-5 rounded-xl shadow border border-gray-200">
         <div className="flex items-center gap-3 mb-4">
           <div className="bg-pink-100 p-2 rounded-lg">
@@ -136,9 +137,10 @@ export default function Dashboard() {
             </button>
           </div>
         </div>
+
         <DataTable
           columns={columns}
-          data={mockData}
+          data={details}
           pagination
           highlightOnHover
           responsive
@@ -146,7 +148,12 @@ export default function Dashboard() {
           paginationComponentOptions={{ rowsPerPageText: '', rangeSeparatorText: '', selectAllRowsItem: false }}
           noRowsPerPage
         />
-        <div className="mt-2 flex items-center justify-between text-sm text-gray-600">Results: {mockData.length} users</div>
+
+        <div className="mt-2 flex justify-between items-center text-sm text-gray-600">
+          <span>Results: {details.length} users</span>
+          <div className="flex items-center gap-2">
+          </div>
+        </div>
       </div>
     </div>
   );
