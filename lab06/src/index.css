@@ -74,3 +74,6 @@ body,
   padding: 0;
 }
 @import "tailwindcss";
+a {
+  @apply text-inherit no-underline;
+}

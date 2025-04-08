@@ -21,28 +21,36 @@ export default function Sidebar() {
         <nav className="flex flex-col gap-2">
           {links.map((link) => (
             <NavLink
-              key={link.name}
-              to={link.to}
-              className={({ isActive }) =>
-                `flex items-center gap-2 px-4 py-2 rounded-md ${
-                  isActive ? "bg-pink-500 text-white" : "text-gray-600 hover:bg-gray-100"
-                }`
-              }
-            >
-              {link.icon}
-              {link.name}
-            </NavLink>
+            key={link.name}
+            to={link.to}
+            className={({ isActive }) =>
+              `flex items-center gap-2 px-4 py-2 rounded-md no-underline ${
+                isActive
+                  ? "bg-pink-500 text-white font-semibold"
+                  : "text-gray-800 hover:bg-pink-100 hover:text-pink-600"
+              }`
+            }
+          >
+            <span className="text-inherit">{link.icon}</span>
+            <span className="text-inherit">{link.name}</span>
+          </NavLink>
+          
           ))}
         </nav>
       </div>
-      <div className="bg-gray-100 p-4 rounded-lg mt-8">
+      <div className="bg-blue-100 p-4 rounded-lg mt-8">
         <div className="mb-8">
           <img src={group} alt="Logo" className="w-32 h-auto mx-auto" />
         </div>
-        <p className="text-sm font-medium mb-2">V2.0 is available</p>
-        <button className="border border-blue-500 text-blue-500 px-3 py-1 rounded text-sm hover:bg-blue-50"> Try now </button>
-
+        <div className="flex flex-col items-center">
+          <p className="text-sm font-medium mb-2">V2.0 is available</p>
+          <button className="border border-blue-500 text-blue-500 px-3 py-1 rounded text-sm hover:bg-blue-200">
+            Try now
+          </button>
+        </div>
       </div>
+
+
     </aside>
   );
 }
