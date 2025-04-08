@@ -5,11 +5,13 @@ import { LayoutDashboard, FileDown, FileUp, Pencil } from "lucide-react";
 import DataTable from "react-data-table-component";
 import Squaresfour1 from "../../img/Squaresfour1.png";
 import ModalEdit from "../component/ModalEdit";
+import ModalAdd from "../component/ModalAdd";
 
 export default function Dashboard() {
   const [cards, setCards] = useState([]);
   const [details, setDetails] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [addModalOpen, setAddModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
 
   useEffect(() => {
@@ -140,6 +142,12 @@ export default function Dashboard() {
           </div>
           <h2 className="text-xl font-bold text-gray-800">Detailed Report</h2>
           <div className="ml-auto flex gap-2">
+            <button
+              onClick={() => setAddModalOpen(true)}
+              className="flex items-center gap-1 border border-pink-500 text-pink-500 hover:bg-pink-100 text-sm font-medium px-4 py-2 rounded-md"
+            >
+              + Add User
+            </button>
             <button className="flex items-center gap-1 border border-pink-500 text-pink-500 hover:bg-pink-100 text-sm font-medium px-4 py-2 rounded-md">
               <FileDown className="w-4 h-4" /> Import
             </button>
@@ -162,19 +170,25 @@ export default function Dashboard() {
 
         <div className="mt-2 flex justify-between items-center text-sm text-gray-600">
           <span>Results: {details.length} users</span>
-          <div className="flex items-center gap-2"></div>
         </div>
       </div>
-        
+
       <ModalEdit
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         data={selectedRow}
-        onSave={(updatedRow) => {
+        onSave={(updated) => {
           setDetails((prev) =>
-            prev.map((item) => (item.id === updatedRow.id ? updatedRow : item))
+            prev.map((item) => (item.id === updated.id ? updated : item))
           );
+          setModalOpen(false);
         }}
+      />
+
+      <ModalAdd
+        isOpen={addModalOpen}
+        onClose={() => setAddModalOpen(false)}
+        onAdd={(newUser) => setDetails((prev) => [...prev, newUser])}
       />
     </div>
   );
