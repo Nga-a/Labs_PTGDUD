@@ -4,9 +4,13 @@ import * as LucideIcons from "lucide-react";
 import { LayoutDashboard, FileDown, FileUp, Pencil } from "lucide-react";
 import DataTable from "react-data-table-component";
 import Squaresfour1 from "../../img/Squaresfour1.png";
+import ModalEdit from "../component/ModalEdit";
+
 export default function Dashboard() {
   const [cards, setCards] = useState([]);
   const [details, setDetails] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
 
   useEffect(() => {
     axios
@@ -53,6 +57,11 @@ export default function Dashboard() {
     );
   };
 
+  const handleEdit = (row) => {
+    setSelectedRow(row);
+    setModalOpen(true);
+  };
+
   const columns = [
     {
       name: "",
@@ -85,8 +94,11 @@ export default function Dashboard() {
     },
     {
       name: "",
-      cell: () => (
-        <Pencil className="w-4 h-4 text-gray-500 hover:text-gray-700 cursor-pointer" />
+      cell: (row) => (
+        <Pencil
+          className="w-4 h-4 text-gray-500 hover:text-gray-700 cursor-pointer"
+          onClick={() => handleEdit(row)}
+        />
       ),
       width: "60px",
     },
@@ -96,7 +108,7 @@ export default function Dashboard() {
     <div className="p-6">
       <div className="flex items-center gap-3 mb-6">
         <div className="bg-pink-100 p-2 rounded-lg">
-          <img src={Squaresfour1} alt="Logo"  />
+          <img src={Squaresfour1} alt="Logo" />
         </div>
         <h2 className="text-2xl font-bold text-gray-800">Overview</h2>
       </div>
@@ -150,10 +162,22 @@ export default function Dashboard() {
 
         <div className="mt-2 flex justify-between items-center text-sm text-gray-600">
           <span>Results: {details.length} users</span>
-          <div className="flex items-center gap-2">
-          </div>
+          <div className="flex items-center gap-2"></div>
         </div>
       </div>
+
+      <ModalEdit
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        data={selectedRow}
+        onSave={(updatedRow) => {
+          setDetails((prev) =>
+            prev.map((item) => (item.id === updatedRow.id ? updatedRow : item))
+          );
+          setModalOpen(false);
+        }}
+      />
+
     </div>
   );
 }
